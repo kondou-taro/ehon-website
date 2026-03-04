@@ -3,6 +3,7 @@ import YouTubePlayer from "@/components/YouTubePlayer";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LeafDecoration, StarDecoration, PawDecoration } from "@/components/Decorations";
+import { BookOpen, Calendar, Sparkles } from "lucide-react";
 
 export async function generateStaticParams() {
     const videos = await getVideos();
@@ -42,11 +43,13 @@ export default async function VideoDetailPage({
                 </Link>
 
                 <div className="flex flex-wrap items-center gap-4 mb-8">
-                    <time className="text-accent/30 font-bold tracking-widest text-sm uppercase">
+                    <div className="flex items-center gap-2 text-accent/30 font-bold tracking-widest text-xs uppercase">
+                        <Calendar className="w-4 h-4" />
                         {new Date(video.publishedAt).toLocaleDateString("ja-JP")}
-                    </time>
-                    <span className="bg-main text-accent px-5 py-2 rounded-full font-bold shadow-sm border border-accent/5 organic-blob-1 text-sm">
-                        #{video.theme}
+                    </div>
+                    <span className="bg-main text-accent px-5 py-2 rounded-full font-bold shadow-sm border border-accent/5 organic-blob-1 text-sm flex items-center gap-2">
+                        <Sparkles className="w-3 h-3" />
+                        {video.theme}
                     </span>
                     <span className="bg-white text-accent/50 px-5 py-2 rounded-full font-bold shadow-sm text-sm border border-accent/5 organic-blob-2">
                         対象年齢: {video.targetAge}
@@ -72,12 +75,12 @@ export default async function VideoDetailPage({
                 <LeafDecoration className="absolute -right-10 -bottom-10 w-40 h-40 opacity-[0.03] rotate-180" />
 
                 <h2 className="text-3xl font-bold text-accent mb-10 flex items-center gap-4 hand-drawn-line">
-                    <span className="text-4xl filter drop-shadow-sm">📖</span>
+                    <BookOpen className="w-8 h-8 opacity-40" />
                     あらすじ
                 </h2>
-                <p className="text-xl text-accent/70 leading-[1.8] font-medium italic">
-                    「{video.description}」
-                </p>
+                <div className="text-xl text-accent/70 leading-[1.8] font-medium italic">
+                    {video.description}
+                </div>
 
                 <div className="mt-16 p-8 bg-main/30 rounded-[2rem] border-2 border-dashed border-accent/10 relative">
                     <PawDecoration className="absolute -left-6 -top-6 w-12 h-12 opacity-20 rotate-45" />

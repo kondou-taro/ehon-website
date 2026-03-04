@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BookOpen } from "lucide-react";
 
 export default function Header() {
     return (
@@ -8,7 +9,7 @@ export default function Header() {
                     href="/"
                     className="text-2xl font-bold text-accent hover:opacity-80 transition-all flex items-center gap-2 group"
                 >
-                    <span className="text-3xl filter drop-shadow-sm group-hover:rotate-12 transition-transform duration-300">📚</span>
+                    <BookOpen className="w-8 h-8 text-accent group-hover:rotate-12 transition-transform duration-300" />
                     <span className="tracking-tighter">ちいさなとしょかん</span>
                 </Link>
                 <nav>
