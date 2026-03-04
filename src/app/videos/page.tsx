@@ -1,5 +1,6 @@
 import { getVideos } from "@/lib/data";
 import VideoCard from "@/components/VideoCard";
+import { LeafDecoration, StarDecoration } from "@/components/Decorations";
 
 export const metadata = {
     title: "動画一覧 | ちいさなとしょかん",
@@ -10,18 +11,25 @@ export default async function VideosPage() {
     const videos = await getVideos();
 
     return (
-        <div className="container mx-auto px-4 py-16 max-w-6xl">
-            <div className="mb-12 text-center">
-                <h1 className="text-4xl font-bold text-accent inline-block relative">
+        <div className="container mx-auto px-4 py-32 max-w-6xl relative">
+            <LeafDecoration className="absolute -left-20 top-20 w-64 h-64 -rotate-12 opacity-[0.03]" />
+
+            <div className="mb-20 text-center relative z-10">
+                <div className="mb-6 inline-block px-6 py-2 bg-accent/5 rounded-full text-accent font-bold text-sm organic-border">
+                    おはなしの小部屋
+                </div>
+                <h1 className="text-4xl md:text-5xl font-bold text-accent inline-block relative px-12">
+                    <StarDecoration className="absolute -left-4 -top-4 w-12 h-12 opacity-20 animate-spin-slow" />
                     動画一覧
-                    <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-16 h-1 bg-accent/30 rounded-full"></span>
+                    <StarDecoration className="absolute -right-4 -bottom-4 w-12 h-12 opacity-20 animate-gentle-float" />
+                    <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-24 h-2 bg-accent/10 rounded-full border-b border-accent/5"></span>
                 </h1>
-                <p className="mt-8 text-accent/70 font-medium text-lg">
-                    全 {videos.length} 件のおはなし
+                <p className="mt-12 text-accent/50 font-bold tracking-widest uppercase text-sm">
+                    全 {videos.length} 冊のおはなし
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 relative z-10">
                 {videos.map((video) => (
                     <VideoCard key={video.id} video={video} />
                 ))}

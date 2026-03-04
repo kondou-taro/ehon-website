@@ -2,6 +2,7 @@ import { getVideos, getVideoById } from "@/lib/data";
 import YouTubePlayer from "@/components/YouTubePlayer";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { LeafDecoration, StarDecoration, PawDecoration } from "@/components/Decorations";
 
 export async function generateStaticParams() {
     const videos = await getVideos();
@@ -28,59 +29,76 @@ export default async function VideoDetailPage({
     const nextVideo = currentIndex > 0 ? allVideos[currentIndex - 1] : null;
 
     return (
-        <article className="container mx-auto px-4 py-12 max-w-4xl">
-            <div className="mb-8">
-                <Link href="/videos" className="text-accent/60 hover:text-accent font-medium mb-6 inline-block transition-colors">
-                    ← 動画一覧にもどる
+        <article className="container mx-auto px-4 py-32 max-w-4xl relative">
+            <PawDecoration className="absolute -left-10 top-20 w-32 h-32 opacity-[0.03] -rotate-12" />
+            <StarDecoration className="absolute right-0 top-1/2 w-24 h-24 opacity-[0.05] animate-gentle-float" />
+
+            <div className="mb-12 relative z-10">
+                <Link
+                    href="/videos"
+                    className="group text-accent/40 hover:text-accent font-bold mb-10 inline-flex items-center gap-2 transition-all organic-border px-4 py-2 bg-white/50 backdrop-blur-sm border border-accent/5"
+                >
+                    <span className="group-hover:-translate-x-1 transition-transform">←</span> 動画一覧にもどる
                 </Link>
-                <div className="flex flex-wrap items-center gap-4 mb-6">
-                    <time className="text-accent/60 font-medium">
+
+                <div className="flex flex-wrap items-center gap-4 mb-8">
+                    <time className="text-accent/30 font-bold tracking-widest text-sm uppercase">
                         {new Date(video.publishedAt).toLocaleDateString("ja-JP")}
                     </time>
-                    <span className="bg-main text-accent px-4 py-1.5 rounded-full font-bold shadow-sm border border-accent/10">
+                    <span className="bg-main text-accent px-5 py-2 rounded-full font-bold shadow-sm border border-accent/5 organic-blob-1 text-sm">
                         #{video.theme}
                     </span>
-                    <span className="bg-white text-accent/70 px-4 py-1.5 rounded-full font-bold shadow-sm text-sm border border-accent/10">
+                    <span className="bg-white text-accent/50 px-5 py-2 rounded-full font-bold shadow-sm text-sm border border-accent/5 organic-blob-2">
                         対象年齢: {video.targetAge}
                     </span>
                 </div>
-                <h1 className="text-3xl md:text-4xl font-bold text-accent leading-tight">
+
+                <h1 className="text-4xl md:text-5xl font-bold text-accent leading-[1.2] tracking-tighter">
                     {video.title}
                 </h1>
             </div>
 
-            <div className="mb-12 bg-white p-4 rounded-3xl shadow-lg border border-accent/5">
-                {video.id.startsWith("video_") ? (
-                    <YouTubePlayer videoId="aqz-KE-bpKQ" />
-                ) : (
-                    <YouTubePlayer videoId={video.id} />
-                )}
-            </div>
-
-            <div className="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-accent/5 mb-16">
-                <h2 className="text-2xl font-bold text-accent mb-6 flex items-center gap-3">
-                    <span className="text-3xl">📖</span> あらすじ
-                </h2>
-                <p className="text-lg text-accent/80 leading-loose">
-                    {video.description}
-                </p>
-
-                <div className="mt-12 p-6 bg-main/50 rounded-2xl border border-accent/5">
-                    <h3 className="font-bold text-accent mb-2">このおはなしの教訓・テーマ：</h3>
-                    <p className="text-accent/80">{video.theme}の大切さについて、やさしく学べるストーリーです。</p>
+            <div className="mb-20 bg-white p-6 md:p-10 rounded-[3rem] shadow-[0_30px_80px_rgb(91,58,41,0.08)] border border-accent/5 organic-border relative z-10">
+                <div className="organic-border overflow-hidden shadow-2xl">
+                    {video.id.startsWith("video_") ? (
+                        <YouTubePlayer videoId="aqz-KE-bpKQ" />
+                    ) : (
+                        <YouTubePlayer videoId={video.id} />
+                    )}
                 </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-8 border-t border-accent/10">
+            <div className="bg-white rounded-[3rem] p-10 md:p-16 shadow-[0_10px_40px_rgb(91,58,41,0.03)] border border-accent/5 mb-24 relative z-10 overflow-hidden">
+                <LeafDecoration className="absolute -right-10 -bottom-10 w-40 h-40 opacity-[0.03] rotate-180" />
+
+                <h2 className="text-3xl font-bold text-accent mb-10 flex items-center gap-4 hand-drawn-line">
+                    <span className="text-4xl filter drop-shadow-sm">📖</span>
+                    あらすじ
+                </h2>
+                <p className="text-xl text-accent/70 leading-[1.8] font-medium italic">
+                    「{video.description}」
+                </p>
+
+                <div className="mt-16 p-8 bg-main/30 rounded-[2rem] border-2 border-dashed border-accent/10 relative">
+                    <PawDecoration className="absolute -left-6 -top-6 w-12 h-12 opacity-20 rotate-45" />
+                    <h3 className="font-bold text-accent mb-3 text-lg">このおはなしの教訓・テーマ：</h3>
+                    <p className="text-accent/60 leading-relaxed font-medium">
+                        {video.theme}の大切さについて、動物たちの姿を通してやさしく学べるストーリーです。
+                        お子さまと一緒に、あたたかい気持ちを分かち合ってみてください。
+                    </p>
+                </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-stretch justify-between gap-8 pt-12 border-t-2 border-accent/5 relative z-10">
                 <div className="w-full sm:w-1/2">
                     {prevVideo && (
                         <Link
                             href={`/videos/${prevVideo.id}`}
-                            className="flex flex-col items-start group"
+                            className="flex flex-col items-start group p-6 rounded-3xl hover:bg-white transition-all border-2 border-transparent hover:border-accent/5"
                         >
-                            <span className="text-sm text-accent/60 mb-2 font-medium">前の動画</span>
-                            <span className="text-accent font-bold group-hover:text-accent/70 transition-colors line-clamp-1">
-                                {prevVideo.title}
+                            <span className="text-xs font-bold text-accent/30 mb-3 tracking-widest uppercase">前の動画</span>
+                            <span className="text-accent font-bold group-hover:text-accent/60 transition-colors line-clamp-1 text-lg">
+                                ← {prevVideo.title}
                             </span>
                         </Link>
                     )}
@@ -89,11 +107,11 @@ export default async function VideoDetailPage({
                     {nextVideo && (
                         <Link
                             href={`/videos/${nextVideo.id}`}
-                            className="flex flex-col items-end group"
+                            className="flex flex-col items-end group p-6 rounded-3xl hover:bg-white transition-all border-2 border-transparent hover:border-accent/5"
                         >
-                            <span className="text-sm text-accent/60 mb-2 font-medium">次の動画</span>
-                            <span className="text-accent font-bold group-hover:text-accent/70 transition-colors line-clamp-1">
-                                {nextVideo.title}
+                            <span className="text-xs font-bold text-accent/30 mb-3 tracking-widest uppercase">次の動画</span>
+                            <span className="text-accent font-bold group-hover:text-accent/60 transition-colors line-clamp-1 text-lg text-right">
+                                {nextVideo.title} →
                             </span>
                         </Link>
                     )}

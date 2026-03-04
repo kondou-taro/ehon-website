@@ -3,9 +3,10 @@
 @theme inline {
   --color-background: #FFF8E8;
   --color-foreground: #5B3A29;
-  
+
   --color-main: #FFF8E8;
   --color-accent: #5B3A29;
+  --color-accent-soft: rgba(91, 58, 41, 0.1);
 
   --font-sans: var(--font-zen-maru), ui-sans-serif, system-ui, sans-serif;
 }
@@ -14,4 +15,67 @@ body {
   background-color: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-sans);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Paper Texture Overlay */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.04;
+  z-index: 9999;
+  background-image: url("https://www.transparenttextures.com/patterns/pvc-noise.png");
+}
+
+.organic-border {
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+}
+
+.organic-blob-1 {
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+}
+
+.organic-blob-2 {
+  border-radius: 60% 40% 30% 70% / 50% 60% 40% 60%;
+}
+
+.hand-drawn-line {
+  position: relative;
+}
+
+.hand-drawn-line::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: currentColor;
+  opacity: 0.3;
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  transform: rotate(-0.5deg);
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+.animate-gentle-float {
+  animation: float 6s ease-in-out infinite;
 }
