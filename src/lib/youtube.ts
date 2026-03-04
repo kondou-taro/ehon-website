@@ -29,10 +29,14 @@ export function parseDescription(description: string): {
         }
     });
 
-    // あらすじが取得できなかった場合は1行目を使用するなどのフォールバック
-    if (!synopsis && lines.length > 0) {
-        synopsis = lines[0];
+    // あらすじが取得できなかった場合のデフォルト設定
+    if (!synopsis) {
+        synopsis = lines.length > 0 ? lines[0] : "心温まる絵本のストーリーをお楽しみください。";
     }
+
+    // テーマと対象年齢の規定値
+    theme = theme || "やさしさ・思いやり";
+    targetAge = targetAge || "3〜5歳";
 
     return { synopsis, theme, targetAge };
 }

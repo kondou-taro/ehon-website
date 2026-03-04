@@ -25,6 +25,21 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* 動画がない場合 */}
+      {videos.length === 0 && (
+        <section className="container mx-auto px-4 text-center py-20">
+          <div className="bg-white p-12 rounded-[2rem] shadow-sm border border-accent/5 max-w-2xl mx-auto">
+            <span className="text-6xl mb-6 block">✨</span>
+            <h2 className="text-2xl font-bold text-accent mb-4">まだ動画がありません</h2>
+            <p className="text-accent/70 text-lg">
+              もうすぐ絵本のおはなしが届きます。
+              <br />
+              楽しみにお待ちください。
+            </p>
+          </div>
+        </section>
+      )}
+
       {/* 最新動画プレイヤー */}
       {latestVideo && (
         <section className="container mx-auto px-4 max-w-4xl">

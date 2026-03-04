@@ -49,6 +49,25 @@ jobs:
 3. **シークレットの設定**:
    - GitHubのリポジトリ設定 > Secrets and variables > Actions で `VERCEL_DEPLOY_HOOK_URL` を追加し、Vercelで生成したURLを貼り付けます。
 
+## Vercel Cronでの自動再ビルド設定
+
+VercelのCron Jobs機能を使用して、1日1回自動的に再ビルドを実行することも可能です。
+
+1. `vercel.json` をプロジェクトのルートに作成し、以下のように記述します：
+
+```json
+{
+  "crons": [
+    {
+      "path": "/api/revalidate",
+      "schedule": "0 0 * * *"
+    }
+  ]
+}
+```
+
+2. `/api/revalidate` エンドポイントを実装し、そこから Vercel Deploy Hook を叩くか、Next.js のリバリデートを実行するように構成します。
+
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
