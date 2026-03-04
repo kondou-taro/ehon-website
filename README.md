@@ -20,14 +20,34 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## Vercelでの自動再ビルド設定
 
-To learn more about Next.js, take a look at the following resources:
+YouTubeの更新をサイトに反映させるには、VercelのDeploy Hooksを利用して定期的に再ビルドを実行するように設定してください。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Deploy Hookの作成**:
+   - Vercelのプロジェクト設定 > Git > Deploy Hooks で新しいHookを作成します（例：`youtube-sync`）。
+   - 生成されたURLをコピーします。
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **定期実行の設定 (GitHub Actions例)**:
+   - `.github/workflows/rebuild.yml` を作成し、以下のように記述します（毎日深夜に実行する場合）。
+
+```yaml
+name: Scheduled Rebuild
+on:
+  schedule:
+    - cron: '0 15 * * *' # 日本時間 0:00 (UTC 15:00)
+  workflow_dispatch: # 手動実行も可能にする
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel Deploy Hook
+        run: curl -X POST ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+```
+
+3. **シークレットの設定**:
+   - GitHubのリポジトリ設定 > Secrets and variables > Actions で `VERCEL_DEPLOY_HOOK_URL` を追加し、Vercelで生成したURLを貼り付けます。
 
 ## Deploy on Vercel
 
