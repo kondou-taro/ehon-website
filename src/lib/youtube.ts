@@ -110,7 +110,10 @@ export async function fetchYouTubeVideos(): Promise<Video[]> {
 
     const videos: Video[] = (playlistData.items || []).map((item: any) => {
         const snippet = item.snippet;
-        const { synopsis, theme, targetAge } = parseDescription(snippet.description || "");
+        const rawDescription = snippet.description || "";
+        const rawTitle = snippet.title || "";
+        const isShort = rawTitle.toLowerCase().includes("#shorts") || rawDescription.toLowerCase().includes("#shorts");
+        const { synopsis, theme, targetAge } = parseDescription(rawDescription);
 
         return {
             id: snippet.resourceId.videoId,
@@ -120,6 +123,7 @@ export async function fetchYouTubeVideos(): Promise<Video[]> {
             targetAge,
             publishedAt: snippet.publishedAt,
             thumbnailUrl: snippet.thumbnails?.maxres?.url || snippet.thumbnails?.high?.url || snippet.thumbnails?.default?.url,
+            isShort,
         };
     });
 

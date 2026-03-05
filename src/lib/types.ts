@@ -6,4 +6,5 @@ export interface Video {
     targetAge: string;
     publishedAt: string;
     thumbnailUrl: string;
+    isShort?: boolean;
 }

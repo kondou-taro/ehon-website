@@ -1,7 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getVideos } from "@/lib/data";
+import { Video } from "@/lib/types";
 import VideoCard from "@/components/VideoCard";
+import ShortVideoCard from "@/components/ShortVideoCard";
 import YouTubePlayer from "@/components/YouTubePlayer";
 import { SparkleDecoration, PawDecoration, LeafDecoration } from "@/components/Decorations";
 import { BouncyText, FadeUp, FloatingElement } from "@/components/AnimatedText";
@@ -9,7 +11,9 @@ import { BookOpen, ArrowRight, Youtube, Sparkles } from "lucide-react";
 
 export default async function Home() {
   const videos = await getVideos();
-  const latestVideo = videos[0];
+  const regularVideos = videos.filter((v: Video) => !v.isShort);
+  const shortVideos = videos.filter((v: Video) => v.isShort);
+  const latestVideo = regularVideos.length > 0 ? regularVideos[0] : videos[0];
 
   return (
     <div className="flex flex-col relative">
@@ -170,7 +174,7 @@ export default async function Home() {
       )}
 
       {/* ━━━━━ Recent Videos ━━━━━ */}
-      {videos.length > 0 && (
+      {regularVideos.length > 0 && (
         <section className="container mx-auto px-4 max-w-6xl py-16">
           <FadeUp>
             <div className="flex items-center justify-between mb-10">
@@ -189,12 +193,41 @@ export default async function Home() {
           </FadeUp>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {videos.slice(0, 3).map((video, i) => (
+            {regularVideos.slice(0, 3).map((video: Video, i: number) => (
               <FadeUp key={video.id} delay={0.1 * i}>
                 <VideoCard video={video} />
               </FadeUp>
             ))}
           </div>
+        </section>
+      )}
+
+      {/* ━━━━━ Shorts Section ━━━━━ */}
+      {shortVideos.length > 0 && (
+        <section className="container mx-auto px-4 max-w-6xl pt-8 pb-20 relative overflow-hidden">
+          <FadeUp>
+            <div className="flex flex-col mb-8">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="wavy-divider"></div>
+                <h2 className="text-2xl font-bold text-accent">ショート絵本</h2>
+                <span className="text-xs font-bold text-warm bg-warm/15 px-3 py-1 rounded-full ml-1">
+                  サクッと見れる！
+                </span>
+              </div>
+              <p className="text-accent/50 text-sm ml-12">短い時間で楽しめる、ちょっとしたお話。</p>
+            </div>
+          </FadeUp>
+
+          <FadeUp delay={0.2}>
+            {/* 横スクロール対応コンテナ */}
+            <div className="flex gap-4 overflow-x-auto pb-6 -mx-4 px-4 sm:mx-0 sm:px-0 snap-x snap-mandatory no-scrollbar">
+              {shortVideos.map((video: Video) => (
+                <div key={video.id} className="snap-start shrink-0">
+                  <ShortVideoCard video={video} />
+                </div>
+              ))}
+            </div>
+          </FadeUp>
         </section>
       )}
     </div>
