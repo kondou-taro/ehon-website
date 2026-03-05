@@ -8,16 +8,17 @@ export interface YouTubeVideoData {
     description: string;
 }
 
-export function parseDescription(description: string): {
+export function parseDescription(description: string, title: string): {
     synopsis: string;
     theme: string;
     targetAge: string;
 } {
     const lines = description.split("\n").map((line) => line.trim());
 
+    const fullText = (title + " " + description).toLowerCase();
     let synopsis = "";
-    let theme = "やさしさ"; // デフォルト
-    let targetAge = "3〜5歳"; // デフォルト
+    let theme = ""; 
+    let targetAge = ""; 
 
     // まず「あらすじ:」「テーマ:」「対象年齢:」のラベル付き行を探す
     lines.forEach((line) => {
@@ -29,6 +30,17 @@ export function parseDescription(description: string): {
             targetAge = line.replace("対象年齢:", "").trim();
         }
     });
+
+    // テーマの自動推測（手動設定がない場合）
+    if (!theme) {
+        if (fullText.includes("冒険") || fullText.includes("勇気") || fullText.includes("洞窟")) theme = "勇気・冒険";
+        else if (fullText.includes("友情") || fullText.includes("ともだち") || fullText.includes("仲間")) theme = "友情・きずな";
+        else if (fullText.includes("冬") || fullText.includes("雪") || fullText.includes("秋") || fullText.includes("あったかい")) theme = "季節のぬくもり";
+        else if (fullText.includes("魔法") || fullText.includes("ふしぎ") || fullText.includes("夢")) theme = "想像力・ゆめ";
+        else if (fullText.includes("ありがとう") || fullText.includes("感謝") || fullText.includes("うた")) theme = "かんしゃ";
+        else if (fullText.includes("自分") || fullText.includes("一生懸命") || fullText.includes("色")) theme = "じぶんらしさ";
+        else theme = "やさしさ";
+    }
 
     // あらすじが取得できなかった場合、説明文の冒頭から宣伝文までをあらすじとして使用
     if (!synopsis) {
@@ -113,7 +125,7 @@ export async function fetchYouTubeVideos(): Promise<Video[]> {
         const rawDescription = snippet.description || "";
         const rawTitle = snippet.title || "";
         const isShort = rawTitle.toLowerCase().includes("#shorts") || rawDescription.toLowerCase().includes("#shorts");
-        const { synopsis, theme, targetAge } = parseDescription(rawDescription);
+        const { synopsis, theme, targetAge } = parseDescription(rawDescription, rawTitle);
 
         return {
             id: snippet.resourceId.videoId,
