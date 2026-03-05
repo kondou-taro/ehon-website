@@ -1,48 +1,50 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Video } from "@/lib/types";
-import { Sparkles, Calendar } from "lucide-react";
+import { Clock, ArrowUpRight } from "lucide-react";
 
 export default function VideoCard({ video }: { video: Video }) {
     return (
         <Link href={`/videos/${video.id}`} className="group block h-full">
-            <div className="bg-white rounded-[2rem] overflow-hidden shadow-[0_15px_45px_rgb(91,58,41,0.06)] border border-accent/5 transition-all duration-500 group-hover:shadow-[0_25px_60px_rgb(91,58,41,0.12)] group-hover:-translate-y-2 flex flex-col h-full organic-border">
-                {/* サムネイル */}
-                <div className="relative aspect-video overflow-hidden w-[92%] mx-auto mt-4 rounded-2xl organic-border shadow-inner">
+            <article className="bg-white rounded-3xl overflow-hidden shadow-[0_2px_20px_rgb(91,58,41,0.06)] border border-accent/5 transition-all duration-500 group-hover:shadow-[0_12px_40px_rgb(91,58,41,0.12)] group-hover:-translate-y-1 flex flex-col h-full">
+                {/* Thumbnail */}
+                <div className="relative aspect-video overflow-hidden">
                     <Image
                         src={video.thumbnailUrl}
                         alt={video.title}
                         fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
-                    <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-white/90 backdrop-blur-sm text-accent px-3 py-1 rounded-full text-xs font-bold shadow-sm organic-blob-1 border border-accent/5">
-                        <Sparkles className="w-3 h-3" />
+                    {/* Theme badge */}
+                    <div className="absolute bottom-3 left-3 bg-warm/90 text-white px-3 py-1 rounded-lg text-xs font-bold shadow-sm backdrop-blur-sm">
                         {video.theme}
+                    </div>
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 bg-accent/0 group-hover:bg-accent/5 transition-colors duration-300 flex items-center justify-center">
+                        <div className="w-12 h-12 bg-white/90 rounded-2xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-75 group-hover:scale-100 shadow-lg">
+                            <ArrowUpRight className="w-5 h-5 text-accent" />
+                        </div>
                     </div>
                 </div>
 
-                {/* コンテンツ */}
-                <div className="p-7 flex flex-col flex-grow">
-                    <div className="flex items-center gap-2 mb-3 text-accent/40 font-bold text-xs tracking-widest uppercase">
-                        <Calendar className="w-3 h-3" />
-                        {new Date(video.publishedAt).toLocaleDateString("ja-JP")}
-                    </div>
-
-                    <h3 className="text-xl font-bold text-accent mb-3 line-clamp-2 leading-[1.4] group-hover:text-accent/70 transition-colors">
+                {/* Content */}
+                <div className="p-5 flex flex-col flex-grow">
+                    <h3 className="text-base font-bold text-accent mb-2 line-clamp-2 leading-snug group-hover:text-warm transition-colors">
                         {video.title}
                     </h3>
 
-                    <div className="mt-auto pt-4 flex items-center justify-between">
-                        <span className="text-xs font-bold text-accent/50 bg-main/50 px-3 py-1 rounded-full organic-border">
-                            対象年齢: {video.targetAge}
-                        </span>
-                        <span className="text-accent group-hover:translate-x-1 transition-transform">
-                            →
+                    <div className="mt-auto pt-3 flex items-center justify-between text-xs text-accent/40">
+                        <div className="flex items-center gap-1.5">
+                            <Clock className="w-3 h-3" />
+                            {new Date(video.publishedAt).toLocaleDateString("ja-JP")}
+                        </div>
+                        <span className="font-bold bg-main px-2.5 py-0.5 rounded-md">
+                            {video.targetAge}
                         </span>
                     </div>
                 </div>
-            </div>
+            </article>
         </Link>
     );
 }
