@@ -11,6 +11,26 @@ const zenMaruGothic = Zen_Maru_Gothic({
 export const metadata: Metadata = {
   title: "ちいさなとしょかん",
   description: "やさしい絵本のおはなしを、毎日おとどけ。動物たちのあったかいストーリーで、お子さまのおやすみ前にどうぞ。",
+  openGraph: {
+    title: "ちいさなとしょかん",
+    description: "やさしい絵本のおはなしを、毎日おとどけ。動物たちのあったかいストーリーで、お子さまのおやすみ前にどうぞ。",
+    images: [
+      {
+        url: "/images/ogp.png",
+        width: 1200,
+        height: 630,
+        alt: "ちいさなとしょかん - やさしい絵本のおはなしを、毎日おとどけ。",
+      },
+    ],
+    locale: "ja_JP",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ちいさなとしょかん",
+    description: "やさしい絵本のおはなしを、毎日おとどけ。",
+    images: ["/images/ogp.png"],
+  },
 };
 
 import Header from "@/components/Header";
@@ -23,7 +43,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={`${zenMaruGothic.variable} antialiased selection:bg-accent selection:text-main flex flex-col min-h-screen`}>
+      <body className={`${zenMaruGothic.variable} antialiased selection:bg-warm-light selection:text-accent flex flex-col min-h-screen`}>
         <Header />
         <main className="flex-grow">{children}</main>
         <Footer />

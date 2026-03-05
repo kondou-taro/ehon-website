@@ -138,6 +138,23 @@ body::before {
   animation: wiggle 4s ease-in-out infinite;
 }
 
+/* ──────────── Hero float (for illustration) ──────────── */
+@keyframes hero-float {
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-12px) scale(1.02);
+  }
+}
+
+.animate-hero-float {
+  animation: hero-float 6s ease-in-out infinite;
+}
+
 /* ──────────── Smooth scroll ──────────── */
 html {
   scroll-behavior: smooth;

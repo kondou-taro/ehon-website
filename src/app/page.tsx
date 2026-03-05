@@ -1,8 +1,9 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getVideos } from "@/lib/data";
 import VideoCard from "@/components/VideoCard";
 import YouTubePlayer from "@/components/YouTubePlayer";
-import { CloudDecoration, SparkleDecoration, PawDecoration, LeafDecoration } from "@/components/Decorations";
+import { SparkleDecoration, PawDecoration, LeafDecoration } from "@/components/Decorations";
 import { BouncyText, FadeUp, FloatingElement } from "@/components/AnimatedText";
 import { BookOpen, ArrowRight, Youtube, Sparkles } from "lucide-react";
 
@@ -14,87 +15,101 @@ export default async function Home() {
     <div className="flex flex-col relative">
 
       {/* ━━━━━ KV / Hero ━━━━━ */}
-      <section className="relative min-h-[85vh] flex items-center justify-center px-4 overflow-hidden">
-        {/* Background decorations */}
-        <FloatingElement className="absolute left-[5%] top-[15%] text-accent" duration={8} y={20}>
-          <CloudDecoration className="w-48 h-24 opacity-[0.04]" />
+      <section className="relative min-h-[90vh] flex items-center justify-center px-4 overflow-hidden">
+        {/* Decorations */}
+        <FloatingElement className="absolute right-[8%] top-[18%] text-warm" duration={5} y={10}>
+          <SparkleDecoration className="w-8 h-8 opacity-40" />
         </FloatingElement>
-        <FloatingElement className="absolute right-[8%] top-[25%] text-warm" duration={6} y={14}>
-          <SparkleDecoration className="w-10 h-10 opacity-30" />
+        <FloatingElement className="absolute left-[10%] bottom-[25%] text-warm" duration={8} y={14}>
+          <PawDecoration className="w-16 h-16 opacity-[0.1]" />
         </FloatingElement>
-        <FloatingElement className="absolute left-[15%] bottom-[20%] text-warm" duration={10} y={16}>
-          <PawDecoration className="w-20 h-20 opacity-[0.08]" />
-        </FloatingElement>
-        <FloatingElement className="absolute right-[12%] bottom-[30%] text-accent" duration={9} y={12}>
-          <LeafDecoration className="w-16 h-16 opacity-[0.06]" />
+        <FloatingElement className="absolute right-[15%] bottom-[18%] text-accent" duration={10} y={12}>
+          <LeafDecoration className="w-14 h-14 opacity-[0.08]" />
         </FloatingElement>
 
-        <div className="container mx-auto max-w-3xl text-center relative z-10 pt-24 pb-16">
-          {/* Badge */}
-          <FadeUp delay={0}>
-            <div className="inline-flex items-center gap-2 px-5 py-2 bg-warm/10 text-warm rounded-full text-sm font-bold mb-10">
-              <Sparkles className="w-3.5 h-3.5" />
-              ちいさなとしょかんへようこそ
-            </div>
-          </FadeUp>
+        <div className="container mx-auto max-w-5xl relative z-10 pt-24 pb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
 
-          {/* Main copy — each line bounces in */}
-          <div className="space-y-1 mb-10">
-            <BouncyText
-              text="やさしい絵本の"
-              className="text-4xl md:text-6xl font-bold text-accent tracking-tight"
-              delay={0.2}
-            />
-            <BouncyText
-              text="おはなしを、"
-              className="text-4xl md:text-6xl font-bold text-accent tracking-tight"
-              delay={0.6}
-            />
-            <div className="pt-2">
-              <BouncyText
-                text="毎日おとどけ。"
-                className="text-4xl md:text-6xl font-bold text-warm tracking-tight hand-drawn-underline"
-                delay={1.0}
-              />
+            {/* Left: Text */}
+            <div className="text-center md:text-left order-2 md:order-1">
+              <FadeUp delay={0}>
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-warm/10 text-warm rounded-full text-xs font-bold mb-8">
+                  <Sparkles className="w-3 h-3" />
+                  ちいさなとしょかんへようこそ
+                </div>
+              </FadeUp>
+
+              <div className="space-y-0.5 mb-8">
+                <BouncyText
+                  text="やさしい絵本の"
+                  className="text-3xl md:text-5xl font-bold text-accent tracking-tight"
+                  delay={0.3}
+                />
+                <BouncyText
+                  text="おはなしを、"
+                  className="text-3xl md:text-5xl font-bold text-accent tracking-tight"
+                  delay={0.7}
+                />
+                <div className="pt-1">
+                  <BouncyText
+                    text="毎日おとどけ。"
+                    className="text-3xl md:text-5xl font-bold text-warm tracking-tight hand-drawn-underline"
+                    delay={1.1}
+                  />
+                </div>
+              </div>
+
+              <FadeUp delay={1.4}>
+                <p className="text-base text-accent/50 leading-relaxed max-w-md mx-auto md:mx-0 mb-10">
+                  動物たちのあったかいストーリーで、
+                  <br />
+                  お子さまのおやすみ前に夢の入り口を。
+                </p>
+              </FadeUp>
+
+              <FadeUp delay={1.7}>
+                <div className="flex flex-col sm:flex-row items-center md:items-start gap-3">
+                  <a
+                    href="https://www.youtube.com/@chiisanatoshokan?sub_confirmation=1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#FF0000] text-white rounded-2xl font-bold text-sm hover:bg-[#E00] transition-all hover:scale-105 active:scale-95 shadow-lg shadow-red-500/20 group"
+                  >
+                    <Youtube className="w-4 h-4 group-hover:animate-wiggle" />
+                    チャンネル登録する
+                  </a>
+                  <Link
+                    href="/videos"
+                    className="inline-flex items-center gap-2 px-5 py-3.5 text-accent/60 font-bold hover:text-accent hover:bg-accent/5 rounded-2xl transition-all group text-sm"
+                  >
+                    動画を見る
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </div>
+              </FadeUp>
             </div>
+
+            {/* Right: Hero Illustration */}
+            <FadeUp delay={0.5} className="order-1 md:order-2 flex justify-center">
+              <div className="relative w-full max-w-md">
+                <div className="absolute inset-0 bg-warm/5 rounded-full blur-3xl scale-90"></div>
+                <Image
+                  src="/images/hero.png"
+                  alt="動物たちが絵本を読んでいるイラスト"
+                  width={500}
+                  height={500}
+                  className="relative z-10 drop-shadow-lg animate-hero-float rounded-3xl bg-[#FFF8E8]"
+                  priority
+                />
+              </div>
+            </FadeUp>
           </div>
-
-          {/* Sub copy */}
-          <FadeUp delay={1.4}>
-            <p className="text-lg md:text-xl text-accent/50 leading-relaxed max-w-lg mx-auto">
-              動物たちのあったかいストーリーで、
-              <br />
-              お子さまのおやすみ前に夢の入り口を。
-            </p>
-          </FadeUp>
-
-          {/* CTA */}
-          <FadeUp delay={1.8}>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12">
-              <a
-                href="https://www.youtube.com/@chiisanatoshokan?sub_confirmation=1"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 px-8 py-4 bg-[#FF0000] text-white rounded-2xl font-bold hover:bg-[#E00] transition-all hover:scale-105 active:scale-95 shadow-lg shadow-red-500/20 group"
-              >
-                <Youtube className="w-5 h-5 group-hover:animate-wiggle" />
-                チャンネル登録する
-              </a>
-              <Link
-                href="/videos"
-                className="inline-flex items-center gap-2 px-6 py-4 text-accent font-bold hover:bg-accent/5 rounded-2xl transition-all group"
-              >
-                動画を見る
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </div>
-          </FadeUp>
         </div>
       </section>
 
       {/* ━━━━━ Latest Video ━━━━━ */}
       {latestVideo && (
-        <section className="container mx-auto px-4 max-w-4xl py-20 relative">
+        <section className="container mx-auto px-4 max-w-4xl py-16 relative">
           <FadeUp>
             <div className="flex items-center gap-3 mb-8">
               <div className="w-10 h-10 bg-warm/15 rounded-xl flex items-center justify-center">
@@ -133,12 +148,16 @@ export default async function Home() {
 
       {/* ━━━━━ Empty state ━━━━━ */}
       {videos.length === 0 && (
-        <section className="container mx-auto px-4 text-center py-20 max-w-md">
+        <section className="container mx-auto px-4 text-center py-16 max-w-md">
           <FadeUp>
-            <div className="bg-white p-10 rounded-3xl shadow-sm border border-accent/5">
-              <div className="w-16 h-16 bg-warm/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <Sparkles className="w-7 h-7 text-warm" />
-              </div>
+            <div className="bg-white p-8 rounded-3xl shadow-sm border border-accent/5">
+              <Image
+                src="/images/empty-state.png"
+                alt="星を見つめるくまの子"
+                width={240}
+                height={240}
+                className="mx-auto mb-6 rounded-2xl"
+              />
               <h2 className="text-xl font-bold text-accent mb-3">まだ動画がありません</h2>
               <p className="text-accent/40 text-sm leading-relaxed">
                 もうすぐ絵本のおはなしが届きます。
@@ -152,7 +171,7 @@ export default async function Home() {
 
       {/* ━━━━━ Recent Videos ━━━━━ */}
       {videos.length > 0 && (
-        <section className="container mx-auto px-4 max-w-6xl py-20">
+        <section className="container mx-auto px-4 max-w-6xl py-16">
           <FadeUp>
             <div className="flex items-center justify-between mb-10">
               <div className="flex items-center gap-3">
