@@ -91,7 +91,7 @@ export default async function VideoDetailPage({
                         </div>
                         <h2 className="text-xl font-bold text-accent">あらすじ</h2>
                     </div>
-                    <p className="text-accent/60 leading-[1.9] text-[15px]">
+                    <p className="text-accent/60 leading-[1.9] text-[15px] whitespace-pre-line">
                         {video.description}
                     </p>
 

@@ -19,6 +19,7 @@ export function parseDescription(description: string): {
     let theme = "やさしさ"; // デフォルト
     let targetAge = "3〜5歳"; // デフォルト
 
+    // まず「あらすじ:」「テーマ:」「対象年齢:」のラベル付き行を探す
     lines.forEach((line) => {
         if (line.startsWith("あらすじ:")) {
             synopsis = line.replace("あらすじ:", "").trim();
@@ -29,9 +30,34 @@ export function parseDescription(description: string): {
         }
     });
 
-    // あらすじが取得できなかった場合のデフォルト設定
+    // あらすじが取得できなかった場合、説明文の冒頭から宣伝文までをあらすじとして使用
     if (!synopsis) {
-        synopsis = lines.length > 0 ? lines[0] : "心温まる絵本のストーリーをお楽しみください。";
+        const synopsisLines: string[] = [];
+        for (const line of lines) {
+            // ハッシュタグ行、宣伝・CTA行で区切る
+            if (
+                line.startsWith("#") ||
+                line.startsWith("🌟") ||
+                line.includes("チャンネル登録") ||
+                line.includes("高評価") ||
+                line.includes("グッドボタン") ||
+                line.includes("水彩画")
+            ) {
+                if (synopsisLines.length > 0) break;
+                continue;
+            }
+
+            // 最初の空行の連続をスキップする
+            if (synopsisLines.length === 0 && line === "") {
+                continue;
+            }
+
+            synopsisLines.push(line);
+        }
+        // 取得した複数行のテキストの前後の余分な空行をトリムする
+        synopsis = synopsisLines.length > 0
+            ? synopsisLines.join("\n").trim()
+            : "心温まる絵本のストーリーをお楽しみください。";
     }
 
     // テーマと対象年齢の規定値
