@@ -17,29 +17,30 @@ export function parseDescription(description: string, title: string): {
 
     const fullText = (title + " " + description).toLowerCase();
     let synopsis = "";
-    let theme = ""; 
-    let targetAge = ""; 
+    let themeValue = "";
+    let targetAgeValue = "";
 
     // まず「あらすじ:」「テーマ:」「対象年齢:」のラベル付き行を探す
     lines.forEach((line) => {
         if (line.startsWith("あらすじ:")) {
             synopsis = line.replace("あらすじ:", "").trim();
         } else if (line.startsWith("テーマ:")) {
-            theme = line.replace("テーマ:", "").trim();
+            themeValue = line.replace("テーマ:", "").trim();
         } else if (line.startsWith("対象年齢:")) {
-            targetAge = line.replace("対象年齢:", "").trim();
+            targetAgeValue = line.replace("対象年齢:", "").trim();
         }
     });
 
     // テーマの自動推測（手動設定がない場合）
-    if (!theme) {
-        if (fullText.includes("冒険") || fullText.includes("勇気") || fullText.includes("洞窟")) theme = "勇気・冒険";
-        else if (fullText.includes("友情") || fullText.includes("ともだち") || fullText.includes("仲間")) theme = "友情・きずな";
-        else if (fullText.includes("冬") || fullText.includes("雪") || fullText.includes("秋") || fullText.includes("あったかい")) theme = "季節のぬくもり";
-        else if (fullText.includes("魔法") || fullText.includes("ふしぎ") || fullText.includes("夢")) theme = "想像力・ゆめ";
-        else if (fullText.includes("ありがとう") || fullText.includes("感謝") || fullText.includes("うた")) theme = "かんしゃ";
-        else if (fullText.includes("自分") || fullText.includes("一生懸命") || fullText.includes("色")) theme = "じぶんらしさ";
-        else theme = "やさしさ";
+    if (!themeValue) {
+        if (fullText.includes("冒険") || fullText.includes("勇気") || fullText.includes("洞窟")) themeValue = "勇気・冒険";
+        else if (fullText.includes("友情") || fullText.includes("ともだち") || fullText.includes("仲間")) themeValue = "友情・きずな";
+        else if (fullText.includes("冬") || fullText.includes("雪") || fullText.includes("秋") || fullText.includes("あったかい")) themeValue = "季節のぬくもり";
+        else if (fullText.includes("笑") || fullText.includes("おもしろ") || fullText.includes("コミカル") || fullText.includes("ハプニング") || fullText.includes("失敗") || fullText.includes("クスッと")) themeValue = "わらい・おもしろ";
+        else if (fullText.includes("魔法") || fullText.includes("ふしぎ") || fullText.includes("夢")) themeValue = "想像力・ゆめ";
+        else if (fullText.includes("ありがとう") || fullText.includes("感謝") || fullText.includes("うた")) themeValue = "かんしゃ";
+        else if (fullText.includes("自分") || fullText.includes("一生懸命") || fullText.includes("色")) themeValue = "じぶんらしさ";
+        else themeValue = "やさしさ";
     }
 
     // あらすじが取得できなかった場合、説明文の冒頭から宣伝文までをあらすじとして使用
@@ -73,8 +74,8 @@ export function parseDescription(description: string, title: string): {
     }
 
     // テーマと対象年齢の規定値
-    theme = theme || "やさしさ・思いやり";
-    targetAge = targetAge || "3〜5歳";
+    const theme = themeValue || "やさしさ";
+    const targetAge = targetAgeValue || "3〜5歳";
 
     return { synopsis, theme, targetAge };
 }
